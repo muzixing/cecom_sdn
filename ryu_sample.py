@@ -126,11 +126,21 @@ class l3_routing(app_manager.RyuApp):
 	ofproto = dp.ofproto
 	parser = dp.ofproto_parser
 	priority = 0
+	group_id = 1
 	if (ev.enter == True ):		
 		self.logger.info('Switch ' + dpid_str + ' detected!')
+		if ( dpid_str == '0000000000000001' ): # only enable multicast for switch 0000000000000001
+			ports = [1,2]
+			grp_buckets = []
+			for port in ports:
+				grp_act = [parser.OFPActionOutput(port, 2000)]
+				tmp_bucket = parser.OFPBucket(actions = grp_act)
+				grp_buckets.append(tmp_bucket)
+			
+			self.add_all_group_entry( dp, group_id, grp_buckets )
 
-		if ( not self.dp_dict.has_key(dpid_str) ):
-			self.dp_dict.update( {dpid_str: dp} )
+			meta_info = ['240.0.0.1', group_id]
+			self.gen_flow_entry_group(dp, parser, priority, meta_info)
 
     ''' Generate flow entry with CIDR mask '''
     def gen_flow_entry_masked(self, datapath, parser, priority, meta):
