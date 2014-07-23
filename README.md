@@ -17,3 +17,9 @@ Note that to compile the Java Source, you need to install the ant first.
 ### Execute ryu applications
 
 	ryu-manager ryu_sample.py
+
+### View the flow entries in a switch
+
+	ovs-ofctl dump-flows [switch_name] -O OpenFlow13
+
+The switch name has the format like s[pod]_[sw_idx]_1 such as s0_0_1
