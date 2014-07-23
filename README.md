@@ -8,8 +8,10 @@ Use ant source builder to compile the entire source, a target directory will be 
 
 	cd routing
 	ant
+	./modFlowTablesByOvs.sh add k
     
 Note that to compile the Java Source, you need to install the ant first.
+And k here denotes the fat-tree's parameter k. As default you can use 4.
 
 ### Initialize the fat-tree topology
 
