@@ -129,7 +129,10 @@ class l3_routing(app_manager.RyuApp):
 	group_id = 1
 	if (ev.enter == True ):		
 		self.logger.info('Switch ' + dpid_str + ' detected!')
+
+		#==== Multicast example start ====#
 		if ( dpid_str == '0000000000000001' ): # only enable multicast for switch 0000000000000001
+			self.logger.info('Mul!')
 			ports = [1,2]
 			grp_buckets = []
 			for port in ports:
@@ -139,8 +142,29 @@ class l3_routing(app_manager.RyuApp):
 			
 			self.add_all_group_entry( dp, group_id, grp_buckets )
 
-			meta_info = ['240.0.0.1', group_id]
+			meta_info = ['240.0.0.1', group_id] #destination host IP and group table id
 			self.gen_flow_entry_group(dp, parser, priority, meta_info)
+
+		#==== Multicast example end ====#
+		
+		#==== Fast failover example start ====#
+		if ( dpid_str == '0000000000000101' ): # only enable fast failover for switch 0000000000000101
+			self.logger.info('FF!')
+			group_id = 2
+			# default working path port is 3, and backup path port is 4...
+			ports = [3,4]
+			act_buckets = []
+			grp_buckets = []
+			for port in ports:
+				grp_act = [parser.OFPActionOutput(port, 2000)]
+				tmp_bucket = parser.OFPBucket(watch_port = port, actions = grp_act)
+				grp_buckets.append(tmp_bucket)
+			
+			self.add_ff_group_entry( dp, group_id, grp_buckets )
+
+			meta_info = ['10.2.0.2', group_id]  # destination host IP and group table id
+			self.gen_flow_entry_group(dp, parser, priority, meta_info)
+		#==== Fast failover example end ====#
 
     ''' Generate flow entry with CIDR mask '''
     def gen_flow_entry_masked(self, datapath, parser, priority, meta):
