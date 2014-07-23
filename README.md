@@ -2,10 +2,11 @@
 A fat-tree initializer and simple group feature test code based on ryu controller
 
 ## Usage
-### Compile the Java Source Files
-In order to run the script, first need to compile the corresponding Java Source Files in src directory.
+### Compile the Java Source Files for default fat-tree routing
+In order to run the default fat-tree routing, first need to compile the corresponding Java Source Files in src directory.
 Use ant source builder to compile the entire source, a target directory will be generated.
 
+	cd routing
 	ant
     
 Note that to compile the Java Source, you need to install the ant first.

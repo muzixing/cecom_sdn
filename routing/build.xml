@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<project default="dist" name="sdnproject">
+    <property name="target" location="target"/>
+    <property name="build" location="${target}/bin"/>
+    <property name="source" location="src"/>
+    <property name="ant.build.javac.source" value="1.6"/>
+    <property name="ant.build.javac.target" value="1.6"/>
+    <property name="lib" location="lib"/>
+
+    <patternset id="lib">
+        <include name="commons-lang-2.6.jar"/>
+        <include name="commons-logging-1.1.2.jar"/>
+        <include name="jackson-core-asl-1.8.6.jar"/>
+        <include name="jackson-mapper-asl-1.8.6.jar"/>
+        <include name="log4j-1.2.15.jar"/>
+    </patternset>
+
+    <path id="classpath">
+        <fileset dir="${lib}">
+            <patternset refid="lib"/>
+        </fileset>
+    </path>
+
+    <target name="init">
+        <mkdir dir="${build}"/>
+        <mkdir dir="${target}/lib"/>
+    </target>
+
+    <target name="compile" depends="init">
+        <javac includeAntRuntime="false" 
+           classpathref="classpath" 
+           debug="true" 
+           srcdir="${source}"
+           destdir="${build}">
+        </javac>
+	<copy file="${source}/log4j.xml" todir="${build}"/>
+	<copy file="${source}/log4j.dtd" todir="${build}"/>
+    </target>
+
+    <target name="clean">
+        <delete dir="${target}"/>
+    </target>
+
+    <target name="dist" depends="compile" />
+
+</project>
