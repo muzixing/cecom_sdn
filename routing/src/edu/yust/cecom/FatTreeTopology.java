@@ -127,7 +127,7 @@ public class FatTreeTopology
 	{
 		// generate a EntryList (similar to flow table), and add flow entries to that object
 
-		// Associate EntryList object with edge switch (ip) (hint, add element into agg_sw_list...)
+		// Associate EntryList object with edge switch (ip) (hint, add element into edge_sw_list...)
 	}
 
 	/**
@@ -137,7 +137,7 @@ public class FatTreeTopology
 	{
 		// generate a EntryList (similar to flow table), and add flow entries to that object
 
-		// Associate EntryList object with core switch (ip) (hint, add element into agg_sw_list...)
+		// Associate EntryList object with core switch (ip) (hint, add element into core_sw_list...)
 
 		for ( int c = 0; c < core_sws.length - 1; c ++ )
 		{
