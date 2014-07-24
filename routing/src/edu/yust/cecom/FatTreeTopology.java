@@ -138,6 +138,31 @@ public class FatTreeTopology
 		// generate a EntryList (similar to flow table), and add flow entries to that object
 
 		// Associate EntryList object with core switch (ip) (hint, add element into agg_sw_list...)
+
+		for ( int c = 0; c < core_sws.length - 1; c ++ )
+		{
+			for ( int d = 0; d < core_sws.length - 1; d ++ )
+			{
+				String switchIp = genIpStr( k, core_sws[c], core_sws[d] );
+				String switchMac = genMacStr( k, core_sws[c], core_sws[d] );
+				String switchName = genNameStr( k, core_sws[c], core_sws[d] );
+				EntryList el = new EntryList();
+
+				for ( int k = 0; k < pods.length - 1; k ++ )
+				{
+					String entryIp = genIpStr( pods[k], 0, 0 );
+					Integer port = pods[k];
+
+					Entry te = new Entry( entryIp, port, 16, "255.255.0.0",
+							"prefix", PREFIX_PRIORITY );
+					el.addEntry( te );
+				}
+
+				core_sw_list.put( switchIp, el );
+				ip_mac_map.put( switchIp, switchMac );
+				ip_name_map.put( switchIp, switchName );
+			}
+		}
 	}
 
 	private void printRouteTable( String type, Map< String, EntryList > list )
