@@ -146,6 +146,15 @@ class l3_routing(app_manager.RyuApp):
 			self.gen_flow_entry_group(dp, parser, priority, meta_info)
 
 		#==== Multicast example end ====#
+
+		#==== Flow entry insertion example start ====#
+		
+		if ( dpid_str == '0000000000000201' ): # only insert flow entries for switch 0000000000000002
+			self.logger.info('Flow inserted!')
+			meta_info = ['10.1.1.2',2]
+			self.gen_flow_entry(dp, parser, priority, meta_info)
+
+		#==== Flow entry insertion example end ====#
 		
 		#==== Fast failover example start ====#
 		if ( dpid_str == '0000000000000101' ): # only enable fast failover for switch 0000000000000101
